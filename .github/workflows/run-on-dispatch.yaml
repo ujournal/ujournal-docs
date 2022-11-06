@@ -10,7 +10,7 @@ jobs:
     timeout-minutes: 25
     env:
       SITE: https://ujournal.github.io
-      BASE: /ujournal-docs/dist/
+      BASE: /ujournal-docs/dist
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
