@@ -1,7 +1,6 @@
 ---
 import BaseHead from "components/BaseHead.astro";
 import Header from "components/Header.astro";
-import { Debug } from "astro/components";
 
 export interface Props {
   content: {
@@ -109,7 +108,6 @@ const rootChildren = getChildren("").sort((a, b) =>
             }
           </ul>
         </nav>
-        <!-- <Footer /> -->
       </aside>
       <main>
         <article>
