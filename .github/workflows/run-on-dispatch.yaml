@@ -1,0 +1,28 @@
+name: Update docs
+
+on:
+  push:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm install
+      - name: Run build
+        run: npm run build
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update docs
+          branch: gh-pages
+          file_pattern: "feeds/*"
+          push_options: "--force"
+          skip_checkout: true
+          commit_user_name: github-ujournal-docs-actions[bot]
+          commit_user_email: jmas.ukraine+ujournal-docs@gmail.com
+          commit_author: Oleksandr Maslakov <jmas.ukraine@gmail.com>

@@ -1,0 +1,139 @@
+---
+import BaseHead from "components/BaseHead.astro";
+import Header from "components/Header.astro";
+import { Debug } from "astro/components";
+
+export interface Props {
+  content: {
+    title: string;
+    description: string;
+  };
+}
+
+const {
+  content: { title, description },
+  url,
+} = Astro.props;
+
+const pages = await Astro.glob("../pages/**/*.md");
+
+const getChildren = (url: string) => {
+  const level = url.split("/").length;
+  return pages.filter(
+    (page) =>
+      page.url?.split("/").length === level + 1 && page.url?.startsWith(url)
+  );
+};
+
+const children = getChildren(url);
+
+const rootChildren = getChildren("").sort((a, b) =>
+  a.frontmatter.title
+    .toLowerCase()
+    .localeCompare(b.frontmatter.title.toLowerCase())
+);
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+    <style>
+      .title {
+        margin: 0.25em 0 0;
+        max-width: 42em;
+      }
+      .page {
+        display: grid;
+        grid-template-columns: 300px auto;
+        min-height: 100vh;
+      }
+      .page > aside {
+        border-right: 1px solid #ebebeb;
+      }
+      .page > aside > nav {
+        margin-right: -1px;
+      }
+      .page > aside > nav ul {
+        list-style: none;
+        padding: 0;
+      }
+      .page > aside > nav a {
+        color: #1a1a1a;
+        text-decoration: none;
+        display: block;
+        padding: 0.45rem 0.25rem;
+        padding-left: 1rem;
+      }
+      .page > aside > nav > ul ul a {
+        padding-left: 1.8rem;
+        font-size: 90%;
+      }
+      .page > aside > nav li.current > a {
+        border-right: 2px solid #000;
+        background-color: rgba(0, 0, 0, 0.025);
+      }
+      .page > main {
+        background-color: #fff;
+        padding: 2rem;
+      }
+      hr {
+        margin: 1rem 0;
+        height: 0;
+        border: none;
+        border-bottom: 1px solid #ebebeb;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page">
+      <aside>
+        <Header />
+        <nav>
+          <ul>
+            {
+              rootChildren.map((page) => (
+                <li class:list={[url === page.url ? "current" : null]}>
+                  <a href={page.url}>{page.frontmatter.title}</a>
+                  {page.url ? (
+                    <ul>
+                      {getChildren(page.url).map((page) => (
+                        <li class:list={[url === page.url ? "current" : null]}>
+                          <a href={page.url}>{page.frontmatter.title}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        <!-- <Footer /> -->
+      </aside>
+      <main>
+        <article>
+          <h1 class="title">{title}</h1>
+          <p>{description}</p>
+          {
+            children.length > 0 ? (
+              <details>
+                <summary>Підрозділи</summary>
+                <ul>
+                  {children.map((page) => (
+                    <li>
+                      <a href={page.url}>{page.frontmatter.title}</a>
+                      <p>{page.frontmatter.description}</p>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ) : null
+          }
+          <hr />
+          <slot />
+        </article>
+      </main>
+    </div>
+  </body>
+</html>
