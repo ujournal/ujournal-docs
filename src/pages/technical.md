@@ -10,7 +10,7 @@ description: "Розділ описує технічні рішення які �
 
 - [Host for free on Fly.io](https://github.com/pocketbase/pocketbase/discussions/537) ([fly.io](https://fly.io) може стати хостінгом, бо вони вміють масштабувати SQLite)
 
-## [Boring Avatars](https://github.com/boringdesigners/boring-avatars)
+## [Boring Avatars](https://boringavatars.com)
 
 Автоматично генеруємі аватарки для юзерів.
 
