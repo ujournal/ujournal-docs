@@ -133,5 +133,20 @@ const rootChildren = getChildren(process.env.BASE || "").sort((a, b) =>
         </article>
       </main>
     </div>
+
+    <script>
+      document.body.addEventListener("click", async (event: Event) => {
+        if (event?.target instanceof HTMLHeadingElement && event?.target.id) {
+          const url = new URL(location.href);
+          url.hash = event?.target.id;
+          try {
+            await navigator?.clipboard.writeText(`${url}`);
+            alert(`Copied: ${url}`);
+          } catch {
+            alert(`Can't copy: #${url}`);
+          }
+        }
+      });
+    </script>
   </body>
 </html>

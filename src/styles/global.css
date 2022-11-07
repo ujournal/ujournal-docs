@@ -43,6 +43,21 @@ h5,
 h6 {
   font-size: 1.4rem;
 }
+h1[id]::after,
+h2[id]::after,
+h3[id]::after,
+h4[id]::after,
+h5[id]::after,
+h6[id]::after {
+  content: "#";
+  font-size: 1rem;
+  vertical-align: middle;
+  font-weight: normal;
+  margin-left: 0.5rem;
+  color: silver;
+  line-height: 1;
+  cursor: pointer;
+}
 a {
   color: #4169e1;
   text-decoration: none;
