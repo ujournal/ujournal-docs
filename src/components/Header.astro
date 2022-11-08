@@ -5,7 +5,9 @@ import logo from "images/logo.svg";
 
 <header>
   <p>
-    <a href={`${process.env.BASE}/`}><img src={logo} alt={SITE_TITLE} /></a>
+    <a href={`${process.env.BASE || ""}/`}
+      ><img src={logo} alt={SITE_TITLE} />
+    </a>
   </p>
   <p>{SITE_DESCRIPTION}</p>
 </header>
